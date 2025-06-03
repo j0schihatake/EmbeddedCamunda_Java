@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  postgres-camunda:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: camunda
+      POSTGRES_PASSWORD: camunda
+      POSTGRES_DB: camunda
+    ports:
+      - "5432:5432"
+    volumes:
+      - camunda_data:/var/lib/postgresql/data
+    command: ["postgres", "-c", "search_path=camunda"]  # Важно!
+
+  postgres-app:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: myapp
+      POSTGRES_PASSWORD: myapp123
+      POSTGRES_DB: myapp
+    ports:
+      - "5433:5432"
+    volumes:
+      - app_data:/var/lib/postgresql/data
+
+volumes:
+  camunda_data:
+  app_data:
